@@ -105,6 +105,14 @@ class DuneClient(DuneInterface, BaseDuneClient):
         except KeyError as err:
             raise DuneError(response_json, "ResultsResponse", err) from err
 
+    def get_latest_result(self, query: Query) -> ResultsResponse:
+        """GET latest results from Dune API for `query`"""
+        response_json = self._get(route=f"query/{query.query_id}/results")
+        try:
+            return ResultsResponse.from_dict(response_json)
+        except KeyError as err:
+            raise DuneError(response_json, "ResultsResponse", err) from err
+
     def get_result_csv(self, job_id: str) -> ExecutionResultCSV:
         """
         GET results in CSV format from Dune API for `job_id` (aka `execution_id`)
