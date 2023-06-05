@@ -160,6 +160,16 @@ class TestDuneClient(unittest.TestCase):
             "{'error': 'The requested execution ID (ID: Wonky Job ID) is invalid.'}",
         )
 
+    def test_get_latest_result_with_query_object(self):
+        dune = DuneClient(self.valid_api_key)
+        results = dune.get_latest_result(self.query).get_rows()
+        self.assertGreater(len(results), 0)
+
+    def test_get_latest_result_with_query_id(self):
+        dune = DuneClient(self.valid_api_key)
+        results = dune.get_latest_result(self.query.query_id).get_rows()
+        self.assertGreater(len(results), 0)
+
 
 if __name__ == "__main__":
     unittest.main()
