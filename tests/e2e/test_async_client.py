@@ -33,6 +33,11 @@ class TestDuneClient(aiounittest.AsyncTestCase):
             results = (await cl.refresh(self.query)).get_rows()
         self.assertGreater(len(results), 0)
 
+    async def test_refresh_context_manager_performance_large(self):
+        async with AsyncDuneClient(self.valid_api_key) as cl:
+            results = (await cl.refresh(self.query, performance="large")).get_rows()
+        self.assertGreater(len(results), 0)
+
     async def test_get_latest_result(self):
         async with AsyncDuneClient(self.valid_api_key) as cl:
             results = (await cl.get_latest_result(self.query)).get_rows()
